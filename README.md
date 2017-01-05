@@ -1,2 +1,2 @@
-# go-version-modifier
-Change the version of the go projects.
+# go-version-update
+Update the version of go projects.
