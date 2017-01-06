@@ -13,7 +13,7 @@ import update "github.com/Code-Hex/go-version-update"
 func main() {
 
     // Find go files are described version variables.
-    founds, err := update.GrepVersion(opts.RelPath)
+    founds, err := update.GrepVersion("target_directory")
     if err != nil {
         panic(err)
     }
