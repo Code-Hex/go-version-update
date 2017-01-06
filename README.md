@@ -1,6 +1,6 @@
 # go-version-update
 [![Go Report Card](https://goreportcard.com/badge/github.com/Code-Hex/go-version-update)](https://goreportcard.com/report/github.com/Code-Hex/go-version-update) [![GoDoc](https://godoc.org/github.com/Code-Hex/go-version-update?status.svg)](https://godoc.org/github.com/Code-Hex/go-version-update)  
-Update the version string of the go project.  
+Update the version string of your go project.  
 Rewrite the value of the `const` or `var` variables matching `/version/i` to the specified version string.
 
 # Synopsis
