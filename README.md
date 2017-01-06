@@ -48,6 +48,10 @@ Usage: goversion [options]
 
     go get github.com/Code-Hex/go-version-update/cmd/goversion
 
+# Contribute
+If you find an issue with this library, please report an issue.  
+If you'd like, we welcome any contributions. Fork this library and submit a pull request.
+
 # License
 [MIT](https://github.com/Code-Hex/go-version-update/blob/master/LICENSE)
 # Author
