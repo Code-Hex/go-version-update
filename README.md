@@ -42,11 +42,11 @@ Usage: goversion [options]
 # Installation
 - Library install
 
-    go get github.com/Code-Hex/go-version-update
+        go get github.com/Code-Hex/go-version-update
 
 - `goversion` command install
 
-    go get github.com/Code-Hex/go-version-update/cmd/goversion
+        go get github.com/Code-Hex/go-version-update/cmd/goversion
 
 # Contribute
 If you find an issue with this library, please report an issue.  
