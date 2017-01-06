@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"os"
 	"runtime"
@@ -35,21 +36,22 @@ func (opts *Options) usage() error {
   Options:
   -h,  --help                   print usage and exit
   -f,  --format <version>       rewrite version of code
-  -d,  --dir                    target direptory
+  -d,  --dir                    target directory
 `)
-	return ignore{err: nil}
+	return &ignore{err: errors.New("Hello")}
 }
 
 func run() error {
 	opts := new(Options)
 	if err := opts.parse(os.Args[1:]); err != nil {
-		if _, ok := err.(ignore); ok {
+		if _, ok := err.(*ignore); ok {
 			return nil
 		}
 		return err
 	}
 	if opts.Help {
-		return opts.usage()
+		opts.usage()
+		return nil
 	}
 	if opts.Version {
 		fmt.Printf("goversion: %s\n", update.Version)
@@ -90,7 +92,7 @@ type ignore struct {
 	err error
 }
 
-func (i ignore) Error() string {
+func (i *ignore) Error() string {
 	return i.err.Error()
 }
 
