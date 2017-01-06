@@ -11,11 +11,15 @@ import (
 	"go/token"
 )
 
-const Version = "0.0.1"
+// Version for go-version-update
+const Version = "1.0.0"
 
+// NextVersion will replace values of "version" attributes.
+// fi:      Specify the output destination of formatted code.
+// path:    target file.
 func NextVersion(fi io.Writer, version, path string) error {
 	fset := token.NewFileSet()
-	f, err := parser.ParseFile(fset, path, nil, 0)
+	f, err := parser.ParseFile(fset, path, nil, parser.ParseComments)
 	if err != nil {
 		return err
 	}
