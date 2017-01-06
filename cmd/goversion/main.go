@@ -65,7 +65,7 @@ func run() error {
 	var buf bytes.Buffer
 	if opts.Rewrite != "" {
 		for _, info := range founds {
-			fi, err := os.OpenFile(info.Path, os.O_WRONLY|os.O_CREATE, 0644)
+			fi, err := os.OpenFile(info.Path, os.O_WRONLY, 0644)
 			if err != nil {
 				return err
 			}
