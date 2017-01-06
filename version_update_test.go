@@ -23,7 +23,7 @@ func TestNextVersion(t *testing.T) {
 
 	for _, cased := range cases {
 		path := filepath.Join("_testdata", "test.go")
-		fi, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0644)
+		fi, err := os.Create(path)
 		if err != nil {
 			t.Fatalf("Could not create testcode: %s", err.Error())
 		}
