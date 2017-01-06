@@ -18,6 +18,7 @@ type info struct {
 	Version string
 }
 
+// GrepVersion will detect go files for "version" variables in the project.
 func GrepVersion(basedir string) ([]*info, error) {
 	path, err := filepath.Abs(basedir)
 	if err != nil {
@@ -64,9 +65,9 @@ func detectVersionFile(ctx context.Context, paths <-chan string, vpaths chan<- *
 			case <-ctx.Done():
 				return ctx.Err()
 			default:
-				info, err := isVersionFile(path)
+				info, err := getVersionFile(path)
 				if err != nil {
-					if _, ok := err.(*notFound); !ok {
+					if _, ok := err.(*notfound); !ok {
 						return err
 					}
 				} else {
@@ -78,6 +79,8 @@ func detectVersionFile(ctx context.Context, paths <-chan string, vpaths chan<- *
 	}
 }
 
+// walk in go projects.
+// but do not search below these directories: .git, vendor, internal
 func findGoFiles(ctx context.Context, basedir string, paths chan<- string) func() error {
 	return func() error {
 		defer close(paths)
@@ -106,7 +109,7 @@ func findGoFiles(ctx context.Context, basedir string, paths chan<- string) func(
 	}
 }
 
-func isVersionFile(path string) (*info, error) {
+func getVersionFile(path string) (*info, error) {
 	fset := token.NewFileSet()
 	f, err := parser.ParseFile(fset, path, nil, 0)
 	if err != nil {
@@ -140,13 +143,13 @@ func isVersionFile(path string) (*info, error) {
 		return &info{Path: path, Version: lit.Value}, nil
 	}
 
-	return nil, &notFound{err: errors.New("Not found")}
+	return nil, &notfound{err: errors.New("Not found")}
 }
 
-type notFound struct {
+type notfound struct {
 	err error
 }
 
-func (n *notFound) Error() string {
+func (n *notfound) Error() string {
 	return n.err.Error()
 }

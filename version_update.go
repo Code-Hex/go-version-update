@@ -2,7 +2,7 @@ package update
 
 import (
 	"fmt"
-	"os"
+	"io"
 	"strings"
 
 	"go/ast"
@@ -13,15 +13,7 @@ import (
 
 const Version = "0.0.1"
 
-type Mode int
-
-const (
-	Write Mode = iota
-	Stdout
-)
-
-func NextVersion(mode Mode, version, path string) error {
-
+func NextVersion(fi io.Writer, version, path string) error {
 	fset := token.NewFileSet()
 	f, err := parser.ParseFile(fset, path, nil, 0)
 	if err != nil {
@@ -53,21 +45,10 @@ func NextVersion(mode Mode, version, path string) error {
 		}
 
 		lit.Value = fmt.Sprintf(`"%s"`, version)
-		switch mode {
-		case 0:
-			fi, err := os.Open(path)
-			if err != nil {
-				return err
-			}
-			defer fi.Close()
-			if err := format.Node(fi, fset, f); err != nil {
-				return err
-			}
-		default:
-			if err := format.Node(os.Stdout, fset, f); err != nil {
-				return err
-			}
+		if err := format.Node(fi, fset, f); err != nil {
+			return err
 		}
+		break
 	}
 
 	return nil
